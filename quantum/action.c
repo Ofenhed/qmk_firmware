@@ -370,13 +370,19 @@ void process_action(keyrecord_t *record, action_t action) {
 
 #ifndef NO_ACTION_ONESHOT
     bool do_release_oneshot = false;
-    // notice we only clear the one shot layer if the pressed key is not a modifier.
+    // notice we only clear the one shot layer if the pressed key is not a
+    // modifier, unless ONESHOT_LAYER_RELEASED_BY_MODIFIERS is defined
     if (is_oneshot_layer_active() && event.pressed &&
-        (action.kind.id == ACT_USAGE || !(IS_MODIFIER_KEYCODE(action.key.code)
-#    ifndef NO_ACTION_TAPPING
-                                          || ((action.kind.id == ACT_LMODS_TAP || action.kind.id == ACT_RMODS_TAP) && (action.layer_tap.code <= MODS_TAP_TOGGLE || tap_count == 0))
+        (action.kind.id == ACT_USAGE || !(
+#    if defined(ONESHOT_LAYER_RELEASED_BY_MODIFIERS)
+                                            false
+#    else
+                                            IS_MODIFIER_KEYCODE(action.key.code)
 #    endif
-                                              ))
+#    ifndef NO_ACTION_TAPPING
+                                            || ((action.kind.id == ACT_LMODS_TAP || action.kind.id == ACT_RMODS_TAP) && (action.layer_tap.code <= MODS_TAP_TOGGLE || tap_count == 0))
+#    endif
+                                                ))
 #    ifdef SWAP_HANDS_ENABLE
         && !(action.kind.id == ACT_SWAP_HANDS && action.swap.code == OP_SH_ONESHOT)
 #    endif

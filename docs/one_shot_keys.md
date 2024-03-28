@@ -4,7 +4,7 @@ One shot keys are keys that remain active until the next key is pressed, and the
 
 For example, if you define a key as `OSM(MOD_LSFT)`, you can type a capital A character by first pressing and releasing shift, and then pressing and releasing A. Your computer will see the shift key being held the moment shift is pressed, and it will see the shift key being released immediately after A is released.
 
-One shot keys also work as normal modifiers. If you hold down a one shot key and type other keys, your one shot will be released immediately after you let go of the key.
+One shot keys also work as normal modifiers. If you hold down a one shot key and type other keys, your one shot will be released immediately after you let go of the key, unless the key is a modifier. If you don't want special behavior for mod keys, this can be achieved by the `ONESHOT_LAYER_RELEASED_BY_MODIFIERS` define.
 
 Additionally, hitting keys five times in a short period will lock that key. This applies for both One Shot Modifiers and One Shot Layers, and is controlled by the `ONESHOT_TAP_TOGGLE` define.
 
